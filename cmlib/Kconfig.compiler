@@ -1,0 +1,76 @@
+# CMLib compiler configurations
+
+menu "Compiler"
+    choice
+        prompt "Compiler"
+        default COMPILER_IAR
+        help
+            Select the compiler toolchain to use
+
+        config COMPILER_IAR
+            bool "IAR"
+
+        config COMPILER_HOST
+            bool "Host PC default"
+    endchoice
+
+    config COMPILER_NAME
+        string
+        default "IAR" if COMPILER_IAR
+        default "Host" if COMPILER_HOST
+        default "<unconfigured>"
+        help
+            The human-readable name of the selected toolchain
+
+            This is a helper string configuration. This option should never be
+            configured manually; it is automatically configured based on the
+            various `COMPILER_X` options. It can be used, however, such as in
+            debug message output.
+
+    config COMPILER_PATH
+        string "Compiler path"
+        help
+            Specify path to the toolchain on the host file system
+
+            Note that this is _not_ the same as the 'host' toolchain option.
+            This option will allow specifying a location that contains the build
+            tools for cross compiling using the toolchain on the current host
+            that this is running on.
+
+    choice
+        prompt "Compiler optimization level"
+        default OPTIMIZATION_LEVEL_HIGH
+        help
+            Select the optimization level to use
+
+        config OPTIMIZATION_LEVEL_OFF
+            bool "Off"
+        config OPTIMIZATION_LEVEL_LOW
+            bool "Low"
+        config OPTIMIZATION_LEVEL_MEDIUM
+            bool "Medium"
+        config OPTIMIZATION_LEVEL_HIGH
+            bool "High"
+        config OPTIMIZATION_LEVEL_HIGH_SIZE
+            bool "High, size"
+        config OPTIMIZATION_LEVEL_HIGH_SPEED
+            bool "High, speed"
+    endchoice
+
+    config OPTIMIZATION_LEVEL_NAME
+        string
+        default "Off" if OPTIMIZATION_LEVEL_OFF
+        default "Low" if OPTIMIZATION_LEVEL_LOW
+        default "Medium" if OPTIMIZATION_LEVEL_MEDIUM
+        default "High" if OPTIMIZATION_LEVEL_HIGH
+        default "High Size" if OPTIMIZATION_LEVEL_HIGH_SIZE
+        default "High Speed" if OPTIMIZATION_LEVEL_HIGH_SPEED
+        default "<unconfigured>"
+        help
+            The human-readable name of the selected optimization level
+
+            This is a helper string configuration. This option should never be
+            configured manually; it is automatically configured based on the
+            various `OPTIMIZATION_LEVEL_X` options. It can be used, however,
+            such as in debug message output.
+endmenu

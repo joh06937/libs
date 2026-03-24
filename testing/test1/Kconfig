@@ -1,0 +1,5 @@
+# test1 unit test project Kconfig
+
+mainmenu "test1 Unit Testing"
+
+rsource "../../Kconfig"

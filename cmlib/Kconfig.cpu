@@ -1,0 +1,94 @@
+# CMLib CPU configurations
+
+menu "CPU"
+    choice
+        prompt "CPU selection"
+        help
+            Select the CPU to target
+
+        config SOC_STM32H743XX
+            bool "STM32H743"
+            select CPU_ARCH_ARM
+            select CPU_CORTEX_M7
+            select SOC_FAMILY_STM32
+
+        config SOC_HOST
+            bool "Host CPU"
+    endchoice
+
+    config CPU_ARCH_ARM
+        bool
+        help
+            The CPU architecture is ARM
+
+            This is a helper configuration. This option should never be
+            configured manually; it is automatically configured based on the
+            selected SOC. It can be used, however, such as in configuring
+            toolchain options or including source code to be built for a
+            particular SOC.
+
+    config CPU_CORTEX_M7
+        bool
+        help
+            The CPU architecture is ARM Cortex-M7
+
+            This is a helper configuration. This option should never be
+            configured manually; it is automatically configured based on the
+            selected SOC. It can be used, however, such as in configuring
+            toolchain options or including source code to be built for a
+            particular SOC.
+
+    config SOC_FAMILY_STM32
+        bool
+        help
+            The CPU family is STM32
+
+            This is a helper configuration. This option should never be
+            configured manually; it is automatically configured based on the
+            selected SOC. It can be used, however, such as in configuring
+            toolchain options or including source code to be built for a
+            particular SOC.
+
+    config SOC_FAMILY_NAME
+        string
+        default "STM32" if SOC_FAMILY_STM32
+        help
+            The human-readable name of the selected SOC family
+
+            This is a helper configuration. This option should never be
+            configured manually; it is automatically configured based on the
+            selected SOC. It can be used, however, such as in debug message
+            output.
+
+    config SOC_NAME
+        string
+        default "STM32H743" if SOC_STM32H743XX
+        help
+            The human-readable name of the selected SOC
+
+            This is a helper configuration. This option should never be
+            configured manually; it is automatically configured based on the
+            selected SOC. It can be used, however, such as in debug message
+            output.
+
+    config STM_HAL
+        bool "STM HAL library"
+        depends on SOC_FAMILY_STM32
+        default y
+        help
+            Opt to use the STM HAL library appropriate for the chosen SOC
+
+    config STM_HAL_LL_DRIVERS
+        bool "STM HAL LL drivers"
+        depends on STM_HAL
+        default y
+        help
+            Opt to build the STM HAL LL driver sources
+
+    config STM_HAL_DRIVERS
+        bool "STM HAL drivers"
+        depends on STM_HAL
+        default n
+        help
+            Opt to build the STM HAL driver sources
+endmenu

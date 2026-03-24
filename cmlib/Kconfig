@@ -1,0 +1,8 @@
+# CMLib configurations
+
+# Note that we must include the OS Kconfig options prior to including the
+# testing ones, as the testing ones have some dependencies on the OS
+rsource "Kconfig.compiler"
+rsource "Kconfig.cpu"
+rsource "Kconfig.os"
+rsource "Kconfig.testing"

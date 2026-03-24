@@ -1,0 +1,49 @@
+# CMLib testing configurations
+
+menu "Unit Testing"
+    config IS_TEST
+        bool
+        depends on COMPILER_HOST
+        depends on OS_HOST
+        default y
+        help
+            The current project is a test project being built on the host OS
+            with the host's compiler
+
+            This option is not presented with a prompt, as that would probably
+            cause confusion for non-test projects. Instead, it will just default
+            to being selected when the host's compiler and OS are selected. If
+            a non-test project is being built on the host using its compiler,
+            then this option will need to be manually disabled.
+
+    config UNIT_TESTING
+        bool "Build unit testing"
+        depends on !IS_TEST
+        default y
+        help
+            Select unit testing to be included in the build
+
+            This option will include the testing infrastructure as a series of
+            additional 'external' projects that will all be buildable as a CMake
+            target separate from the primary app. This option on its own will
+            only build the testing projects; it will not run the tests
+            themselves. See `ALWAYS_RUN_UNIT_TESTING`.
+
+            Note that this option is not available when the host OS is selected,
+            as unit tests themselves do not get to further have their own unit
+            testing sub-projects (which would very likely cause an infinite loop
+            of unit test sub-projects).
+
+    config RUN_UNIT_TESTING
+        bool "Run unit testing when building the primary target"
+        depends on UNIT_TESTING
+        default n
+        help
+            Run the built tests when building the primary target
+
+            If testing is selected via `UNIT_TESTING`, the tests will always be
+            build when building the primary target, and running the unit testing
+            will always be available as an additional target. Select this
+            option, however, will tie the running of the testing to the primary
+            target as a dependency.
+endmenu
