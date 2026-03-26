@@ -14,15 +14,8 @@
  # @return none
  ##
 function(cmlib_compiler_host_configure)
-    # "Generic" is always used for cross compiling
-    set(CMAKE_SYSTEM_NAME               Generic         CACHE INTERNAL "")
-
     # This will prevent the IAR linker from being run during try_compile()
-    set(CMAKE_TRY_COMPILE_TARGET_TYPE   STATIC_LIBRARY  CACHE INTERNAL "")
-
-    # Set the C/C++ standards
-    set(CMAKE_C_STANDARD                99              CACHE INTERNAL "")
-    set(CMAKE_CXX_STANDARD              17              CACHE INTERNAL "")
+    set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY CACHE INTERNAL "")
 
     add_compile_options(
         -fdata-sections

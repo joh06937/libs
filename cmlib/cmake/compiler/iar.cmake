@@ -14,22 +14,11 @@
  # @return none
  ##
 function(cmlib_compiler_iar_configure)
-    # "Generic" is always used for cross compiling
-    set(CMAKE_SYSTEM_NAME               Generic         CACHE INTERNAL "")
-
-    set(CMAKE_SYSTEM_PROCESSOR          arm)
+    # TODO: Fix specifying ARM here
+    set(CMAKE_SYSTEM_PROCESSOR arm)
 
     # This will prevent the IAR linker from being run during try_compile()
-    set(CMAKE_TRY_COMPILE_TARGET_TYPE   STATIC_LIBRARY  CACHE INTERNAL "")
-
-    # Set the C/C++ standards
-    set(CMAKE_C_STANDARD                99              CACHE INTERNAL "")
-    set(CMAKE_CXX_STANDARD              17              CACHE INTERNAL "")
-
-    # Compile the paths to our compiler executables
-    set(CMAKE_ASM_COMPILER              "${CONFIG_COMPILER_PATH}/arm/bin/iasmarm.exe"  CACHE INTERNAL "")
-    set(CMAKE_C_COMPILER                "${CONFIG_COMPILER_PATH}/arm/bin/iccarm.exe"   CACHE INTERNAL "")
-    set(CMAKE_CXX_COMPILER              "${CONFIG_COMPILER_PATH}/arm/bin/iccarm.exe"   CACHE INTERNAL "")
+    set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY CACHE INTERNAL "")
 
     # Figure out our optimization level
     if(CONFIG_OPTIMIZATION_LEVEL_OFF)
@@ -48,6 +37,7 @@ function(cmlib_compiler_iar_configure)
         message(FATAL_ERROR "Unknown IAR optimization level '${CONFIG_OPTIMIZATION_LEVEL}'")
     endif()
 
+    # TODO: Add support for different library sizes
     add_compile_options(
         -r
         $<$<COMPILE_LANGUAGE:ASM>:-s+>

@@ -13,7 +13,7 @@ project(${APP_NAME})
 # Note that we need to specify both a source directory and a binary directory,
 # as we're pulling in code from outside our CMake project directory (thanks,
 # CMake).
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../../src" "${CMAKE_BINARY_DIR}/test1")
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../../src" "${CMAKE_BINARY_DIR}/${APP_NAME}")
 
 # Add in our own source code with additional tests
 target_sources(

@@ -16,6 +16,9 @@ function(cmlib_compiler_configure)
     set(TOOLCHAIN_PATH "${CONFIG_COMPILER_PATH}")
 
     # If a compiler path was specified
+    #
+    # Also, just in case any of the executables are specified, put together a
+    # qualified path to the executables' directory.
     if(NOT "${TOOLCHAIN_PATH}" STREQUAL "")
         # If the toolchain isn't an absolute path, assume it's relative to the
         # top-level CMake project file
@@ -28,7 +31,30 @@ function(cmlib_compiler_configure)
         if(NOT EXISTS "${TOOLCHAIN_PATH}")
             message(FATAL_ERROR "Compiler path '${CONFIG_COMPILER_PATH}' not found")
         endif()
+
+        set(toolchainPathPrefix "${TOOLCHAIN_PATH}/")
+    else()
+        set(toolchainPathPrefix "")
     endif()
+
+    # If any of the assembler, C, or C++ compiler executables are specified,
+    # handle setting them for CMake
+    if(NOT "${CONFIG_COMPILER_ASM_EXE}" STREQUAL "")
+        set(CMAKE_ASM_COMPILER  "${toolchainPathPrefix}${CONFIG_COMPILER_ASM_EXE}" CACHE INTERNAL "")
+    endif()
+    if(NOT "${CONFIG_COMPILER_C_EXE}" STREQUAL "")
+        set(CMAKE_C_COMPILER    "${toolchainPathPrefix}${CONFIG_COMPILER_C_EXE}"   CACHE INTERNAL "")
+    endif()
+    if(NOT "${CONFIG_COMPILER_CPP_EXE}" STREQUAL "")
+        set(CMAKE_CXX_COMPILER  "${toolchainPathPrefix}${CONFIG_COMPILER_CPP_EXE}" CACHE INTERNAL "")
+    endif()
+
+    # Set the C/C++ standards
+    set(CMAKE_C_STANDARD    ${CONFIG_COMPILER_C_STANDARD}   CACHE INTERNAL "")
+    set(CMAKE_CXX_STANDARD  ${CONFIG_COMPILER_CPP_STANDARD} CACHE INTERNAL "")
+
+    # "Generic" is always used for cross compiling
+    set(CMAKE_SYSTEM_NAME Generic CACHE INTERNAL "")
 
     # Handle the specific toolchain we're using
     if(CONFIG_COMPILER_IAR)

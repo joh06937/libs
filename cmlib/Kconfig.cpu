@@ -71,24 +71,25 @@ menu "CPU"
             selected SOC. It can be used, however, such as in debug message
             output.
 
-    config STM_HAL
-        bool "STM HAL library"
-        depends on SOC_FAMILY_STM32
-        default y
-        help
-            Opt to use the STM HAL library appropriate for the chosen SOC
+    if SOC_FAMILY_STM32
+        config STM_HAL
+            bool "STM HAL library"
+            default y
+            help
+                Opt to use the STM HAL library appropriate for the chosen SOC
+    endif
 
-    config STM_HAL_LL_DRIVERS
-        bool "STM HAL LL drivers"
-        depends on STM_HAL
-        default y
-        help
-            Opt to build the STM HAL LL driver sources
+    if STM_HAL
+        config STM_HAL_LL_DRIVERS
+            bool "STM HAL LL drivers"
+            default y
+            help
+                Opt to build the STM HAL LL driver sources
 
-    config STM_HAL_DRIVERS
-        bool "STM HAL drivers"
-        depends on STM_HAL
-        default n
-        help
-            Opt to build the STM HAL driver sources
+        config STM_HAL_DRIVERS
+            bool "STM HAL drivers"
+            default n
+            help
+                Opt to build the STM HAL driver sources
+    endif
 endmenu

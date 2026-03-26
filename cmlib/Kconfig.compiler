@@ -27,15 +27,45 @@ menu "Compiler"
             various `COMPILER_X` options. It can be used, however, such as in
             debug message output.
 
+    config COMPILER_ASM_EXE
+        string "ASM compiler executable"
+        default "iasmarm.exe" if COMPILER_IAR
+        help
+            Specify the executable file name of the assembler
+
+    config COMPILER_C_EXE
+        string "C compiler executable"
+        default "iccarm.exe" if COMPILER_IAR
+        default "gcc" if COMPILER_HOST
+        help
+            Specify the executable file name of the C compiler
+
+    config COMPILER_CPP_EXE
+        string "C++ compiler executable"
+        default "iccarm.exe" if COMPILER_IAR
+        default "g++" if COMPILER_HOST
+        help
+            Specify the executable file name of the C++ compiler
+
     config COMPILER_PATH
-        string "Compiler path"
+        string "Path to the compiler"
         help
             Specify path to the toolchain on the host file system
 
-            Note that this is _not_ the same as the 'host' toolchain option.
-            This option will allow specifying a location that contains the build
-            tools for cross compiling using the toolchain on the current host
-            that this is running on.
+            If this option is not specified, the build environment's PATH will
+            be relied on to find the executables.
+
+    config COMPILER_C_STANDARD
+        int "C compiler standard"
+        default 99
+        help
+            Specify the C compiler standard
+
+    config COMPILER_CPP_STANDARD
+        int "C++ compiler standard"
+        default 17
+        help
+            Specify the C++ compiler standard
 
     choice
         prompt "Compiler optimization level"
