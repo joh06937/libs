@@ -41,7 +41,7 @@ class util::Iterable
         {
             private:
                 /// The iterable we're iterating over
-                Iterable &iterable;
+                Iterable& iterable;
 
                 /// The item in the iterable we're currently at
                 size_t index;
@@ -50,7 +50,7 @@ class util::Iterable
                 /**
                  * Creates an iterator
                  *
-                 * @param &iterable
+                 * @param iterable
                  *      The iterable we'll manage
                  * @param index
                  *      Which item we're pointing at (usually either the start
@@ -58,20 +58,20 @@ class util::Iterable
                  *
                  * @return none
                  */
-                constexpr Iterator(Iterable &iterable, size_t index):
+                constexpr Iterator(Iterable& iterable, size_t index):
                     iterable{iterable},
                     index{index} {}
 
                 /**
                  * Compares us to another iterator
                  *
-                 * @param &other
+                 * @param other
                  *        The iterator to compare to
                  *
                  * @return bool
                  *        Whether or not we equal the other iterator
                  */
-                bool operator==(const Iterator &other) const
+                bool operator==(const Iterator& other) const
                 {
                     return (this->index == other.index);
                 }
@@ -79,13 +79,13 @@ class util::Iterable
                 /**
                  * Compares us to another iterator
                  *
-                 * @param &other
+                 * @param other
                  *        The iterator to compare to
                  *
                  * @return bool
                  *        Whether or not we do not equal the other iterator
                  */
-                bool operator!=(const Iterator &other) const
+                bool operator!=(const Iterator& other) const
                 {
                     return !(*this == other);
                 }
@@ -96,10 +96,10 @@ class util::Iterable
                  *
                  * @param none
                  *
-                 * @return T &
+                 * @return T&
                  *        The item
                  */
-                T &operator*() const
+                T& operator*() const
                 {
                     return this->iterable[this->index];
                 }
@@ -109,10 +109,10 @@ class util::Iterable
                  *
                  * @param none
                  *
-                 * @return T *
+                 * @return T*
                  *        The item
                  */
-                T *operator->() const
+                T* operator->() const
                 {
                     return &this->iterable[this->index];
                 }
@@ -122,10 +122,10 @@ class util::Iterable
                  *
                  * @param none
                  *
-                 * @return Iterator &
+                 * @return Iterator&
                  *        Us
                  */
-                Iterator &operator++()
+                Iterator& operator++()
                 {
                     this->index++;
 
@@ -152,10 +152,10 @@ class util::Iterable
          *
          * @return nullptr
          *        No item available at the index
-         * @return T *
+         * @return T*
          *        The item from the index
          */
-        virtual T *GetItem(size_t index) = 0;
+        virtual T* GetItem(size_t index) = 0;
 
     public:
         /**
@@ -181,10 +181,10 @@ class util::Iterable
          * @param index
          *        Which item to get
          *
-         * @return T &
+         * @return T&
          *        The item
          */
-        T &operator[](size_t index)
+        T& operator[](size_t index)
         {
             return *this->Get(index);
         }

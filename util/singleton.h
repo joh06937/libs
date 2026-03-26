@@ -9,8 +9,8 @@
 
 namespace util
 {
-	template <typename T>
-	class Singleton;
+    template <typename T>
+    class Singleton;
 }
 
 /// A helper for marginally better global variable design
@@ -33,85 +33,85 @@ namespace util
 template <typename T>
 class util::Singleton
 {
-	private:
-		/// The object we're wrapping
-		T *instance = nullptr;
+    private:
+        /// The object we're wrapping
+        T* instance = nullptr;
 
-	public:
-	    /// Singletons will usually be default-constructed
-		constexpr Singleton() = default;
+    public:
+        /// Singletons will usually be default-constructed
+        constexpr Singleton() = default;
 
-		/**
-		 * Creates a singleton
-		 *
-		 * @param &instance
-		 *		The object to wrap
-		 *
-		 * @return none
-		 */
-		constexpr Singleton(T &instance):
-			instance{&instance} {}
+        /**
+         * Creates a singleton
+         *
+         * @param instance
+         *      The object to wrap
+         *
+         * @return none
+         */
+        constexpr Singleton(T& instance):
+            instance{&instance} {}
 
-		/**
-		 * Sets the singleton's instance
-		 *
-		 * @param &instance
-		 *		The instance to set
-		 *
-		 * @return none
-		 */
-		Singleton &operator=(T &instance)
-		{
-			this->instance = &instance;
+        /**
+         * Sets the singleton's instance
+         *
+         * @param instance
+         *      The instance to set
+         *
+         * @return none
+         */
+        Singleton& operator=(T& instance)
+        {
+            this->instance = &instance;
 
-			return *this;
-		}
+            return *this;
+        }
 
-		/**
-		 * Sets the singleton's instance
-		 *
-		 * Note that this variant allows for clearing the instance (i.e. setting
-		 * it to `nullptr`).
-		 *
-		 * @param *instance
-		 *		The instance to set
-		 *
-		 * @return none
-		 */
-		Singleton &operator=(T *instance)
-		{
-			this->instance = instance;
+        /**
+         * Sets the singleton's instance
+         *
+         * Note that this variant allows for clearing the instance (i.e. setting
+         * it to `nullptr`).
+         *
+         * @param instance
+         *      The instance to set
+         *
+         * @return none
+         */
+        Singleton& operator=(T* instance)
+        {
+            this->instance = instance;
 
-			return *this;
-		}
+            return *this;
+        }
 
-		/**
-		 * Gets if the singleton's instance is set
-		 *
-		 * @param none
-		 *
-		 * @return bool
-		 *		Whether or not the singleton's instance is set
-		 */
-		explicit operator bool() const
-		{
-			return (this->instance != nullptr);
-		}
+        /**
+         * Gets if the singleton's instance is set
+         *
+         * @param none
+         *
+         * @return bool
+         *      Whether or not the singleton's instance is set
+         */
+        explicit operator bool() const
+        {
+            return (this->instance != nullptr);
+        }
 
-		/**
-		 * Gets the singleton's instance, if set
-		 *
-		 * @param none
-		 *
-		 * @return nullptr
-		 *      Instance not set
-		 * @return T *
-		 *		The singleton's instance
-		 */
-		T *operator*() const
-		{
-			return this->instance;
-		}
+        /**
+         * Gets the singleton's instance, if set
+         *
+         * @param none
+         *
+         * @return nullptr
+         *      Instance not set
+         * @return T*
+         *      The singleton's instance
+         */
+        T* operator*() const
+        {
+            return this->instance;
+        }
 };
 
 namespace util
@@ -124,11 +124,11 @@ namespace util
      *
      * @param none
      *
-     * @return Singleton<T> &
+     * @return Singleton<T>&
      *      The singleton
      */
     template <typename T>
-    extern Singleton<T> &GetSingleton<T>();
+    extern Singleton<T>& GetSingleton<T>();
 
     /**
      * Gets one of the singletons of a given type
@@ -146,9 +146,9 @@ namespace util
      *
      * @return nullptr
      *      Singleton not available
-     * @return Singleton<T> *
+     * @return Singleton<T>*
      *      The singleton
      */
     template <typename T>
-    extern Singleton<T> *GetSingleton<T>(size_t index);
+    extern Singleton<T>* GetSingleton<T>(size_t index);
 }
