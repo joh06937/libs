@@ -57,7 +57,7 @@ namespace util
 ///			}
 ///
 ///		public:
-///			void Subscribe(util::Callback<bool(int)> && listener)
+///			void Subscribe(util::Callback<bool(int)>&& listener)
 ///			{
 ///				// Callbacks can be simply written over, so just reassign the
 ///				// value of our saved listener callback
@@ -88,7 +88,7 @@ namespace util
 ///			}
 ///
 ///		public:
-///			Listener(Talker &talker)
+///			Listener(Talker& talker)
 ///			{
 ///				// Subscribe to talks from our talker using the util::Bind()
 ///				// helper, which connects class member functions to their object
@@ -113,7 +113,7 @@ namespace util
 ///		return 4321;
 ///	}
 ///
-///	static void Do(util::Callback<int(bool)> && callback)
+///	static void Do(util::Callback<int(bool)>&& callback)
 ///	{
 ///		bool arg = true;
 ///
@@ -143,7 +143,7 @@ class util::Callback<R(Args...)>
 		///
 		/// This could also be set manually by someone instantiating this class
 		/// by hand, but that's not a suggested use case.
-		using Context = void *;
+		using Context = void*;
 
 		/// The function pointer to invoke with our context when the callback is
 		/// invoked
@@ -198,8 +198,8 @@ class util::Callback<R(Args...)>
 			} {}
 
 		constexpr Callback() = default;
-		constexpr Callback(const Callback &other) = default;
-		Callback &operator=(const Callback &other) = default;
+		constexpr Callback(const Callback& other) = default;
+		Callback& operator=(const Callback& other) = default;
 
 		/**
 		 * Gets if the callback is set
@@ -230,13 +230,13 @@ class util::Callback<R(Args...)>
 		/**
 		 * Checks if we equal another callback
 		 *
-		 * @param &other
+		 * @param other
 		 *		The callback to compare to
 		 *
 		 * @return bool
 		 *		Whether or not we equal the other callback
 		 */
-		constexpr bool operator==(const Callback &other) const
+		constexpr bool operator==(const Callback& other) const
 		{
 			return (this->context == other.context) && (this->functor == other.functor);
 		}
@@ -244,13 +244,13 @@ class util::Callback<R(Args...)>
 		/**
 		 * Checks if we do not equal another callback
 		 *
-		 * @param &other
+		 * @param other
 		 *		The callback to compare to
 		 *
 		 * @return bool
 		 *		Whether or not we don't equal the other callback
 		 */
-		constexpr bool operator!=(const Callback &other) const
+		constexpr bool operator!=(const Callback& other) const
 		{
 			return !(*this == other);
 		}
@@ -261,7 +261,7 @@ class util::Callback<R(Args...)>
 		 * @tparam ...Argsp
 		 *		The types of the arguments for the callback
 		 *
-		 * @param &&...args
+		 * @param ...args
 		 *		The arguments to invoke the callback with
 		 *
 		 * @return R
@@ -303,7 +303,7 @@ namespace util
 	/**
 	 * Makes a callback with a free function
 	 *
-	 * @param *function
+	 * @param function
 	 *		The free function to invoke
 	 *
 	 * @return Callback
@@ -326,8 +326,8 @@ namespace util
 		// Thus, we must always roll our own lambda function to invoke the
 		// function.
 		return Callback<R(Args...)>(
-			reinterpret_cast<void *>(function),
-			[](void *context, Args... args) -> R
+			reinterpret_cast<void*>(function),
+			[](void* context, Args... args) -> R
 			{
 				return reinterpret_cast<R(*)(Args...)>(context)(args...);
 			}
@@ -348,9 +348,9 @@ namespace util
 	 * @tparam ...Args
 	 *		The argument types of the function to invoked
 	 *
-	 * @param &item
+	 * @param item
 	 *		An instance of the class whose member function we'll invoke
-	 * @param *function
+	 * @param function
 	 *		The class member function to invoke when the callback is invoked
 	 *		(only to help resolve the types; this isn't itself used)
 	 *
@@ -358,7 +358,7 @@ namespace util
 	 *		The callback
 	 */
 	template <auto F, typename T, typename R, typename... Args>
-	constexpr Callback<R(Args...)> _BindHelper(T &item, R(T::*function)(Args...))
+	constexpr Callback<R(Args...)> _BindHelper(T& item, R(T::*function)(Args...))
 	{
 		// Make a callback with the incoming class instance as the context and
 		// our lambda as the functor
@@ -375,10 +375,10 @@ namespace util
 		// "bound" to is to instantiate this templated lambda function at the
 		// callsite of util::Bind().
 		return Callback<R(Args...)>(
-			static_cast<void *>(&item),
-			[](void *context, Args... args) -> R
+			static_cast<void*>(&item),
+			[](void* context, Args... args) -> R
 			{
-				return (static_cast<T *>(context)->*F)(args...);
+				return (static_cast<T*>(context)->*F)(args...);
 			}
 		);
 	}
@@ -397,9 +397,9 @@ namespace util
 	 * @tparam ...Args
 	 *		The argument types of the function to invoked
 	 *
-	 * @param &item
+	 * @param item
 	 *		An instance of the class whose member function we'll invoke
-	 * @param *function
+	 * @param function
 	 *		The class member function to invoke when the callback is invoked
 	 *		(only to help resolve the types; this isn't itself used)
 	 *
@@ -407,7 +407,7 @@ namespace util
 	 *		The callback
 	 */
 	template <auto F, typename T, typename R, typename... Args>
-	constexpr Callback<R(Args...)> _BindHelper(const T &item, R(T::*function)(Args...) const)
+	constexpr Callback<R(Args...)> _BindHelper(const T& item, R(T::*function)(Args...) const)
 	{
 		// Note that the const_cast() here is okay, as the util::Callback class
 		// itself must choose either to const- or not const-, and chooses to
@@ -416,10 +416,10 @@ namespace util
 		// member function F, which we'll only do once we've reapplied the
 		// const-ness at our callsite below)
 		return Callback<R(Args...)>(
-			static_cast<void *>(const_cast<T *>(&item)),
-			[](void *context, Args... args) -> R
+			static_cast<void*>(const_cast<T*>(&item)),
+			[](void* context, Args... args) -> R
 			{
-				return (static_cast<const T *>(context)->*F)(args...);
+				return (static_cast<const T*>(context)->*F)(args...);
 			}
 		);
 	}
@@ -434,14 +434,14 @@ namespace util
 	 * @tparam T
 	 *		The class of the object
 	 *
-	 * @param &item
+	 * @param item
 	 *		The item whose member function to bind
 	 *
 	 * @return Callback
 	 *		The callback
 	 */
 	template <auto F, typename T>
-	constexpr auto Bind(T &item)
+	constexpr auto Bind(T& item)
 	{
 		return _BindHelper<F>(item, F);
 	}
@@ -456,14 +456,14 @@ namespace util
 	 * @tparam T
 	 *		The class of the object
 	 *
-	 * @param &item
+	 * @param item
 	 *		The item whose member function to bind
 	 *
 	 * @return Callback
 	 *		The callback
 	 */
 	template <auto F, typename T>
-	constexpr auto Bind(const T &item)
+	constexpr auto Bind(const T& item)
 	{
 		return _BindHelper<F>(item, F);
 	}

@@ -35,7 +35,7 @@ class util::Singleton
 {
 	private:
 		/// The object we're wrapping
-		T *instance = nullptr;
+		T* instance = nullptr;
 
 	public:
 	    /// Singletons will usually be default-constructed
@@ -44,23 +44,23 @@ class util::Singleton
 		/**
 		 * Creates a singleton
 		 *
-		 * @param &instance
+		 * @param instance
 		 *		The object to wrap
 		 *
 		 * @return none
 		 */
-		constexpr Singleton(T &instance):
+		constexpr Singleton(T& instance):
 			instance{&instance} {}
 
 		/**
 		 * Sets the singleton's instance
 		 *
-		 * @param &instance
+		 * @param instance
 		 *		The instance to set
 		 *
 		 * @return none
 		 */
-		Singleton &operator=(T &instance)
+		Singleton& operator=(T& instance)
 		{
 			this->instance = &instance;
 
@@ -73,12 +73,12 @@ class util::Singleton
 		 * Note that this variant allows for clearing the instance (i.e. setting
 		 * it to `nullptr`).
 		 *
-		 * @param *instance
+		 * @param instance
 		 *		The instance to set
 		 *
 		 * @return none
 		 */
-		Singleton &operator=(T *instance)
+		Singleton& operator=(T* instance)
 		{
 			this->instance = instance;
 
@@ -105,10 +105,10 @@ class util::Singleton
 		 *
 		 * @return nullptr
 		 *      Instance not set
-		 * @return T *
+		 * @return T*
 		 *		The singleton's instance
 		 */
-		T *operator*() const
+		T* operator*() const
 		{
 			return this->instance;
 		}
@@ -124,11 +124,11 @@ namespace util
      *
      * @param none
      *
-     * @return Singleton<T> &
+     * @return Singleton<T>&
      *      The singleton
      */
     template <typename T>
-    extern Singleton<T> &GetSingleton<T>();
+    extern Singleton<T>& GetSingleton<T>();
 
     /**
      * Gets one of the singletons of a given type
@@ -146,9 +146,9 @@ namespace util
      *
      * @return nullptr
      *      Singleton not available
-     * @return Singleton<T> *
+     * @return Singleton<T>*
      *      The singleton
      */
     template <typename T>
-    extern Singleton<T> *GetSingleton<T>(size_t index);
+    extern Singleton<T>* GetSingleton<T>(size_t index);
 }
