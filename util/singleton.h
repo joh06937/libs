@@ -117,11 +117,14 @@ class util::Singleton
 namespace util
 {
     /**
-     * Gets a singleton
+     * Gets a singleton of a given type
+     *
+     * @tparam
+     *      The type of object wrapped by the singleton
      *
      * @param none
      *
-     * @return Singleton &
+     * @return Singleton<T> &
      *      The singleton
      */
     template <typename T>
@@ -129,6 +132,9 @@ namespace util
 
     /**
      * Gets one of the singletons of a given type
+     *
+     * @tparam
+     *      The type of object wrapped by the singleton
      *
      * Note that this variable provides the ability for more than one singleton
      * of a given type to exist on the system (for example, serial ports). This
@@ -140,9 +146,9 @@ namespace util
      *
      * @return nullptr
      *      Singleton not available
-     * @return Singleton *
-     *      The singleton, if available
+     * @return Singleton<T> *
+     *      The singleton
      */
     template <typename T>
-    extern Singleton<T> &GetSingleton<T>(size_t index);
+    extern Singleton<T> *GetSingleton<T>(size_t index);
 }
