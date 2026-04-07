@@ -1,0 +1,5 @@
+# Ignore the CMake output directory (at least, the commonly-used name)
+build/
+
+# Ignore a user's configuration file
+prj-user.conf
