@@ -1,0 +1,9 @@
+# Kconfig entry point
+#
+# This is the root Kconfig file for a project. When running out of this
+# directory, Kconfig will find this file and start executing from here.
+
+mainmenu "Application Project"
+
+# Pull in all of the supporting Kconfig infrastructure from our toolchain
+rsource "../cmlib/Kconfig"

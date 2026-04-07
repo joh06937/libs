@@ -1,0 +1,5 @@
+# Example 1 unit test project Kconfig
+
+mainmenu "Example 1 Unit Testing"
+
+rsource "../../cmlib/Kconfig"
